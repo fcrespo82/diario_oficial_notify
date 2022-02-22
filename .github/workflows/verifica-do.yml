@@ -1,0 +1,15 @@
+name: Verifica DO e notifica
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "0 9 * * *"
+
+jobs:
+  verifica-do:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Roda o script e notifica caso encontrar alguma coisa
+        run: ./do.py "Fernando Xavier de Freitas Crespo" --data $(date +%d/%m/%Y)
