@@ -14,7 +14,7 @@ jobs:
       - name: Instala dependencias
         run: pip install -r requirements.txt
       - name: Roda o script e notifica caso encontrar alguma coisa
-        run: ./main.py "Fernando Xavier de Freitas Crespo" --data $(date +%d/%m/%Y)
+        run: ./src/main.py "Fernando Xavier de Freitas Crespo" --data $(date +%d/%m/%Y)
         env: # Ou como uma variável de ambiente
           API_KEY: ${{ secrets.API_KEY }}
           USER_KEY: ${{ secrets.USER_KEY }}
