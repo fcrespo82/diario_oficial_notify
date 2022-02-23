@@ -1,4 +1,4 @@
-name: Verifica DO e notifica
+name: Verifica DO e notifica com parâmetros
 on:
   workflow_dispatch:
     inputs:
