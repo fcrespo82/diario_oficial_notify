@@ -86,7 +86,7 @@ if __name__ == '__main__':
     API_KEY = os.getenv('PUSHOVER_API_KEY')
     USER_KEY = os.getenv('PUSHOVER_USER_KEY')
 
-    p = Pushover(API_KEY, USER_KEY)
+    p = Pushover(USER_KEY, API_KEY)
 
     for message, url, url_title in items:
         if args.pushover:

@@ -47,6 +47,8 @@ class Pushover:
             new_line = '\n'
             raise RuntimeError(
                 f'''Error sending message to Pushover:
+Token: '{self.api_token}'
+User: '{self.user_token}'
 Status code: {result.status_code}
 Error: {new_line.join(result.json()["errors"])}''')
 
