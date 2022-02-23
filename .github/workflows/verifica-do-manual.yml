@@ -1,0 +1,26 @@
+name: Verifica DO e notifica
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        type: string
+        description: 'Texto a ser pesquisado no DO'
+        required: true
+      date:
+        type: string
+        description: 'Em qual data pesquisar'
+        required: true
+
+jobs:
+  verifica-do-manual:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Instala dependencias
+        run: pip install -r requirements.txt
+      - name: Roda o script e notifica caso encontrar alguma coisa
+        run: ./src/main.py ${{ env.INPUT_TEXT }} --data ${{ env.INPUT_DATE }}
+        env: # Ou como uma variável de ambiente
+          API_KEY: ${{ secrets.API_KEY }}
+          USER_KEY: ${{ secrets.USER_KEY }}
