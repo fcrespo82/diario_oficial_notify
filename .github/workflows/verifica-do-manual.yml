@@ -22,5 +22,5 @@ jobs:
       - name: Roda o script e notifica caso encontrar alguma coisa
         run: ./src/main.py ${{ github.event.inputs.text }} --data ${{ github.event.inputs.date }} --pushover
         env: # Ou como uma variável de ambiente
-          API_KEY: ${{ secrets.API_KEY }}
-          USER_KEY: ${{ secrets.USER_KEY }}
+          PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
+          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
