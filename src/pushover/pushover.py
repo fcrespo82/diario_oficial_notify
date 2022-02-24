@@ -40,6 +40,7 @@ class Pushover:
         if url_title:
             data['url_title'] = url_title
 
+        self.log.info('Enviando notificação para o Pushover')
         result = requests.post(self.API_URL, data=data)
         self.log.debug(result.text)
 
