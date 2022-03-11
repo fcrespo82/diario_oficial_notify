@@ -13,12 +13,12 @@ jobs:
       - name: Instala dependencias
         run: pip install -r requirements.txt
       - name: Roda o script e notifica caso encontrar alguma coisa por nome
-        run: ./src/main.py "Fernando Xavier de Freitas Crespo" --data $(date +%d/%m/%Y)
+        run: ./src/main.py "Fernando Xavier de Freitas Crespo" --data $(date +%d/%m/%Y) --pushover
         env: # Ou como uma variável de ambiente
           PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
           PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
       - name: Roda o script e notifica caso encontrar alguma coisa por matrícula
-        run: ./src/main.py "23296" --data $(date +%d/%m/%Y)
+        run: ./src/main.py "23296" --data $(date +%d/%m/%Y) --pushover
         env: # Ou como uma variável de ambiente
           PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
           PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
