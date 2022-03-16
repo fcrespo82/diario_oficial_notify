@@ -33,42 +33,30 @@ def setup_argparse():
     parser.add_argument('-v', '--verbose', action='store_true')
 
     parser.add_argument('palavra_chave')
-    parser.add_argument('--pushover', action='store_true', default=False,
-                        help="Envia mensagem através do serviço Pushover")
-    group_one = parser.add_argument_group()
-    group_one.add_argument('--inicio', type=br_date_type,
-                           help='Data inicial (formato: dd/mm/aaaa)')
-    group_one.add_argument('--fim', type=br_date_type,
-                           help='Data final (formato: dd/mm/aaaa)')
 
-    group_two = parser.add_argument_group()
-    group_two.add_argument('--data', type=br_date_type,
-                           help='Data (formato: dd/mm/aaaa)')
+    date_group = parser.add_argument_group('Data de busca')
+
+    data_mutex_group = date_group.add_mutually_exclusive_group(required=True)
+    data_mutex_group.add_argument('--periodo', nargs=2, metavar=('INICIO', 'FIM'),
+                                  type=br_date_type, help='Período para busca entre INICIO e FIM (formato das datas: dd/mm/aaaa)')
+    data_mutex_group.add_argument('--data', type=br_date_type,
+                                  help='Data para busca (formato: dd/mm/aaaa)')
+
+    pushover_group = parser.add_argument_group('Pushover')
+
+    pushover_group.add_argument('--pushover_user',
+                                help="User Key para envio de notificação através do serviço Pushover")
+    pushover_group.add_argument('--pushover_api',
+                                help="Api Key para envio de notificação através do serviço Pushover")
+
+    # email_group = parser.add_argument_group('E-mail')
+
+    # email_group.add_argument('--email-smtp',
+    #                          help="SMTP server para envio de notificação através de e-mail")
+    # email_group.add_argument('--email-from',
+    #                          help="E-mail 'DE' para envio de notificação através de e-mail")
 
     return parser
-
-
-def verify_args(parser, args):
-    '''
-    Verifica se os argumentos são válidos
-    '''
-    if not (args.inicio or args.fim or args.data):
-        print(f'{parser.prog}: error: either (argument --inicio and --fim) \
-or (argument --data) are required')
-        exit(1)
-    elif (args.inicio or args.fim):
-        if (args.inicio) and args.data:
-            print(
-                f'{parser.prog}: error: argument --inicio: not allowed with argument --data')
-            exit(1)
-        elif (args.fim) and args.data:
-            print(
-                f'{parser.prog}: error: argument --fim: not allowed with argument --data')
-            exit(1)
-        elif not (args.inicio and args.fim):
-            print(
-                f'{parser.prog}: error: argument --inicio and argument --fim are required.')
-            exit(1)
 
 
 def main():
@@ -84,23 +72,18 @@ def main():
     else:
         log.setLevel(logging.WARNING)
 
-    verify_args(parser, args)
-    logging.debug(args)
+    logging.info(args)
 
     diario_oficial = DiarioOficial()
     if args.data:
         items = diario_oficial.busca_dia(args.palavra_chave, args.data)
     else:
         items = diario_oficial.busca_entre_datas(
-            args.palavra_chave, args.inicio, args.fim)
+            args.palavra_chave, args.periodo[0], args.periodo[1])
 
-    api_key = os.getenv('PUSHOVER_API_KEY')
-    user_key = os.getenv('PUSHOVER_USER_KEY')
-
-    pushover = Pushover(user_key, api_key)
-
-    for message, url, url_title in items:
-        if args.pushover:
+    if args.pushover_user and args.pushover_api:
+        pushover = Pushover(args.pushover_user, args.pushover_api)
+        for message, url, url_title in items:
             pushover.notify(message, url, url_title)
 
 
