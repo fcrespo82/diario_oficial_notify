@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Instala dependencias
         run: pip install -r requirements.txt
       - name: Roda o script e notifica caso encontrar alguma coisa
