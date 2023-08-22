@@ -6,12 +6,11 @@ CLI para busca e notificação do Diário Oficial
 import datetime
 import logging
 import argparse
-import os
 from pushover import Pushover
 from diario_oficial import DiarioOficial
 
 
-def br_date_type(str_date):
+def br_date_type(str_date: str):
     '''
     Valida se a data está no formato dd/mm/aaaa
     '''
@@ -76,15 +75,15 @@ def main():
 
     diario_oficial = DiarioOficial()
     if args.data:
-        items = diario_oficial.busca_dia(args.palavra_chave, args.data)
+        search_results = diario_oficial.busca_dia(args.palavra_chave, args.data)
     else:
-        items = diario_oficial.busca_entre_datas(
+        search_results = diario_oficial.busca_entre_datas(
             args.palavra_chave, args.periodo[0], args.periodo[1])
 
     if args.pushover_user and args.pushover_api:
         pushover = Pushover(args.pushover_user, args.pushover_api)
-        for message, url, url_title in items:
-            pushover.notify(message, url, url_title)
+        for item in search_results:
+            pushover.notify(item.text, item.url, item.url_text, item.title)
 
 
 if __name__ == '__main__':
