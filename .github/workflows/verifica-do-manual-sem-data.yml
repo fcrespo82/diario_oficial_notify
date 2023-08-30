@@ -1,14 +1,10 @@
-name: Verifica DO e notifica com parâmetros
+name: Verifica DO e notifica com parâmetros - sem data
 on:
   workflow_dispatch:
     inputs:
       text:
         type: string
         description: 'Texto a ser pesquisado no DO'
-        required: true
-      date:
-        type: string
-        description: 'Em qual data pesquisar'
         required: true
 
 jobs:
