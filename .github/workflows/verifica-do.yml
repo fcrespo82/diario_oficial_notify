@@ -33,5 +33,10 @@ jobs:
         env: # Ou como uma variável de ambiente
           PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
           PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
+      - name: Roda o script e notifica caso encontrar alguma coisa sobre "determina ponto facultativo"
+        run: ./src/main.py "determina ponto facultativo" --data $(date +%d/%m/%Y) --pushover_user ${PUSHOVER_USER_KEY} --pushover_api ${PUSHOVER_API_KEY}
+        env: # Ou como uma variável de ambiente
+          PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
+          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
 
 
