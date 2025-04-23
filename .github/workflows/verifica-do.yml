@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4.2.1
-      - uses: gautamkrishnar/keepalive-workflow@2.0.1
+        uses: actions/checkout@v4
+      - uses: gautamkrishnar/keepalive-workflow@2
       - name: Instala dependencias
         run: pip install --user -r requirements.txt
       - name: Roda o script e notifica caso encontrar alguma coisa por nome
