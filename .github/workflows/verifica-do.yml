@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - uses: gautamkrishnar/keepalive-workflow@2
       - name: Instala dependencias
         run: pip install --user -r requirements.txt
       - name: Roda o script e notifica caso encontrar alguma coisa por nome
@@ -38,5 +37,13 @@ jobs:
         env: # Ou como uma variável de ambiente
           PUSHOVER_API_KEY: ${{ secrets.PUSHOVER_API_KEY }}
           PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
-
-
+      - name: Push changes to remote
+        run: |
+          git config --global user.name "Fernando Crespo"
+          git config --global user.email "fernando82@gmail.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout "${GITHUB_REF:11}"
+          echo $(date +'%Y-%m-%d %H:%M:%S') > last_run.txt
+          git add -A --ignore-errors --force
+          git commit -m "Last execution date" $(cat last_run.txt)
+          git push
