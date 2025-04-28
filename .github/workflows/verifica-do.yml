@@ -3,7 +3,7 @@ on:
   schedule:
     # Times in UTC - Brasília Time (BRT) is UTC-3
     - cron: "0 12 * * *"
-
+  workflow_dispatch:
 jobs:
   verifica-do:
     runs-on: ubuntu-latest
@@ -45,5 +45,5 @@ jobs:
           git checkout "${GITHUB_REF:11}"
           echo $(date +'%Y-%m-%d %H:%M:%S') > last_run.txt
           git add -A --ignore-errors --force
-          git commit -m "Last execution date" $(cat last_run.txt)
+          git commit -m "Last execution date $(cat last_run.txt)"
           git push
